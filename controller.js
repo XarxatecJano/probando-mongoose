@@ -20,8 +20,7 @@ exports.insertNewUser = async (req, res) => {
     
     user.newUser();
     user.diHola();
-    user.password = "nuevoPassword";
-    user.save();
+    
     //User.newUser(req.body.username, req.body.password, "", date, "admin");
     res.send("usuario grabado con éxito");
 }

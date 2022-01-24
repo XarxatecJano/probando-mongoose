@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-    username: {type:String, required: true, maxLength:100},
+    username: String,
     hashCode: String,
     salt: String,
-    createdAt: {type: Date, default: ()=> Date.new(), inmutable: true},
+    createdAt: Date,
     role: String
 })
 
