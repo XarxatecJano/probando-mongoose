@@ -3,9 +3,10 @@ const controller = require("../controller");
 
 const router = express.Router();
 
-router.get("/", controller.sendLandingPage);
+router.post("/book", controller.insertNewBook);
 
-router.get("/new-user", controller.getNewUserPage);
-router.post("/new-user", controller.insertNewUser);
+router.get("/book", controller.findBookByTitle);
+
+router.delete("/book", controller.deleteBookByTitle);
 
 module.exports = router;

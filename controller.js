@@ -1,26 +1,38 @@
-const path = require("path");
 const mongoose = require("mongoose");
-const User = require("./model/User");
+const Book = require("./model/Book");
 const connection = require("./config/connection");
+const res = require("express/lib/response");
 
 
-
-exports.sendLandingPage = (req,res) => {
-    res.sendFile(path.join(__dirname, "public", "index.html"));
+exports.deleteBookByTitle = async (req, res)=>{
+    try{
+        const result= connection();
+        const deleteStatus = await Book.deleteOne({title: req.body.title}).exec();
+        res.send(deleteStatus);
+    }catch(err) {
+        res.send(err)
+    }
 }
 
-exports.getNewUserPage = (req,res) => {
-    res.sendFile(path.join(__dirname, "public", "newUser.html"));
+exports.findBookByTitle = async (req, res)=>{
+    try{
+        const result= connection();
+        const book = await Book.findOne({title: req.query.title}).exec();
+        res.json(book);
+    }catch(err) {
+        res.send(err)
+    }
 }
 
-exports.insertNewUser = async (req, res) => {
-    const result = connection();
-    const date = new Date();
-    const user = new User({username:req.body.username, hashCode:req.body.password, salt:"", gender: "M"});
+exports.insertNewBook =  (req, res)=>{
+    try {
+        const result =  connection();
+        const pubDate = new Date(req.body.pubDate);
+        const newBook = new Book({title: req.body.title, pages: req.body.pages, author: req.body.author, editionDate: pubDate});
+        newBook.save();
+        res.redirect("/");
+    } catch(err){
+        res.send(err);
+    }
     
-    user.newUser();
-    user.diHola();
-    
-    //User.newUser(req.body.username, req.body.password, "", date, "admin");
-    res.send("usuario grabado con éxito");
 }
